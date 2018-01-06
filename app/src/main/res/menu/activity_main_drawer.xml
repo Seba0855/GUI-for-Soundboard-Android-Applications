@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Strona główna" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="Ulubione" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Ustawienia" />
+        <item
+            android:id="@+id/nav_facebook"
+            android:icon="@drawable/facebook_app_logo"
+            android:title="Polub nas na Facebooku" />
+
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Oceń aplikację" />
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="Informacje" />
+    </group>
+
+</menu>
