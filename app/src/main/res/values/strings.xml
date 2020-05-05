@@ -1,10 +1,6 @@
 <resources>
-    <string name="app_name">GUI test</string>
-
-    <string name="sound1">Ale jaja</string>
-
+    <string name="app_name">GUI for Soundboards</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ustawienia</string>
 </resources>

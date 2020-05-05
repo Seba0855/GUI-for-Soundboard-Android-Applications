@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Sebastian on 2017-09-23.
  */
 
-public class Adapter extends RecyclerView.Adapter<Adapter.GoodViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private Context context;
 
@@ -43,25 +43,31 @@ public class Adapter extends RecyclerView.Adapter<Adapter.GoodViewHolder> {
     List<Sound> soundList = new ArrayList<>();
 
     @Override
-    public Adapter.GoodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View soudItemView = LayoutInflater.from(context).inflate(R.layout.sound_item, parent, false);
-        return new GoodViewHolder(soudItemView);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View soundItemView = LayoutInflater.from(context).inflate(R.layout.sound_item, parent, false);
+        return new ViewHolder(soundItemView);
     }
 
     @Override
-    public void onBindViewHolder(Adapter.GoodViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         final Sound sound = soundList.get(position);
-        holder.goodSound.setText(sound.getName());
+        holder.soundButton.setText(sound.getName());
         if (onItemClickListener != null) {
-            holder.goodSound.setOnClickListener(new View.OnClickListener() {
+            holder.soundButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(sound);
                 }
             });
+            holder.menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onContextMenu(sound);
+                }
+            });
         }
         if (onItemLongClickListener != null) {
-            holder.goodSound.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.soundButton.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     onItemLongClickListener.onItemLongClick(sound);
@@ -77,19 +83,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.GoodViewHolder> {
     }
 
 
-    class GoodViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        private Button goodSound;
-        private ImageView share;
+        private Button soundButton;
+        private ImageButton menu;
 
-        public GoodViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            goodSound = (Button) itemView.findViewById(R.id.good_sound);
+            soundButton = (Button) itemView.findViewById(R.id.sound_button);
+            menu = (ImageButton) itemView.findViewById(R.id.menu_button);
+
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(Sound item);
+        void onContextMenu(Sound item);
     }
 
     public interface OnItemLongClickListener {

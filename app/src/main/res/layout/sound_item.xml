@@ -10,7 +10,7 @@
     android:orientation="horizontal">
 
     <Button
-        android:id="@+id/good_sound"
+        android:id="@+id/sound_button"
         style="@style/Base.TextAppearance.AppCompat"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
@@ -19,8 +19,15 @@
         android:background="@color/toolbar"
         android:gravity="left|center_vertical"
         android:paddingLeft="12dp"
-        android:text="@string/sound1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#ffffff" />
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:id="@+id/menu_button"
+        android:adjustViewBounds="true"
+        android:layout_height="match_parent"
+        android:background="@color/toolbar"
+        android:src="@drawable/ic_more_vert"/>
 
 </LinearLayout>

@@ -1,6 +1,9 @@
 package violentapplications.guitest;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -26,15 +29,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean mPicking;
     private MediaPlayer mp;
+    private Dialog myDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        //Side panel
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -44,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //Apka
+        //RecyclerView and setting the adapter
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         Adapter myAdapter = new Adapter(this);
         myAdapter.setSoundList(getSoundList());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(myAdapter);
 
+        //Play sound on item (button) click
         myAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(Sound item) {
@@ -63,14 +68,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public void onContextMenu(Sound item) {
+                myDialog = new Dialog(MainActivity.this);
+                myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                myDialog.show();
+            }
         });
 
+        //On long click - setting sounds as notification/alarm sound
         myAdapter.setOnItemLongClickListener(new Adapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(final Sound item) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Ustaw jako");
                 builder.setCancelable(true);
+
                 builder.setNeutralButton("Powiadomienia", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -82,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                 });
+
                 builder.setPositiveButton("Alarm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -92,11 +108,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Toast.makeText(getApplicationContext(), "Ustawiono jako dźwięk alarmu.", Toast.LENGTH_LONG).show();
                     }
                 });
+
                 AlertDialog alert = builder.create();
                 alert.show();
             }
         });
-
 
     }
 
@@ -132,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    //Side panel options
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -157,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
     private List<Sound> getSoundList() {
         Field[] soundRaws = R.raw.class.getFields();
         String[] stringArray = getResources().getStringArray(R.array.strings);
@@ -168,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return soundList;
     }
-
 
     @Override
     protected void onDestroy() {
@@ -184,5 +199,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mp = null;
         }
     }
-
 }
